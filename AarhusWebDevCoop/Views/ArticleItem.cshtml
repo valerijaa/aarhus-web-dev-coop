@@ -1,8 +1,6 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ArticleItem>
 @{
 	Layout = "Master.cshtml";
 }
-
-
-<h1>@Model.Value("articleTitle")</h1>
-<p>@Model.Value("articleContent")</p>
+<h1>@Model.ArticleTitle</h1>
+<p>@Model.ArticleContent</p>

@@ -511,6 +511,10 @@
     <Content Include="Views\ProjectsOverivew.cshtml" />
     <Content Include="Views\TextPage.cshtml" />
     <Content Include="Views\Partials\Sitemap.cshtml" />
+    <Content Include="Views\MacroPartials\mainMenu.cshtml" />
+    <Content Include="Views\MacroPartials\listNewestProjects.cshtml" />
+    <Content Include="Views\AboutUs.cshtml" />
+    <Content Include="Views\Sitemap.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,12 +1,10 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ArticlesOverview>
 @{
 	Layout = "Master.cshtml";
 }
 
-<h1>@Model.Value("articleTitle")</h1>
-<p>@Model.Value("articlesBodyText")</p>
-
-
+<h1>@Model.ArticleTitle</h1>
+<p>@Model.ArticlesBodyText</p>
 
 @{
 	var selection = Umbraco.Content(Guid.Parse("e170b774-2833-4a7f-aa68-22a486123e36"))

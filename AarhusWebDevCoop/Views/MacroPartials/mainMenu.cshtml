@@ -21,14 +21,57 @@
         <div class="collapse navbar-collapse" id="navbarNav">
            @if (selection.Length > 0)
             {
-                <ul class="navbar-nav">
-                    @foreach (var item in selection)
+            <ul class="navbar-nav">
+                @foreach (var item in selection)
+                {
+                    var listItemClass = item.IsAncestorOrSelf(Model.Content) ? "active" : null;
+                    if (item.IsDocumentType("projectsOverview"))
                     {
-                        <li class="nav-item @(item.IsAncestorOrSelf(Model.Content) ? "active" : null)">
-                            <a class="nav-link"  href="@item.Url">@item.Name</a>
+                        var projects = item
+                            .Children()
+                            .Where(x =>
+                                x.IsVisible()
+                                && x.HasValue("projectStatus")
+                                && x.GetProperty("projectStatus").Value<string>() == "Completed"
+                            )
+                            .OrderByDescending(x => x.CreateDate);
+
+                        <li class="nav-item dropdown @listItemClass">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @item.Name
+                            </a>
+                            @ShowDropDownItems(projects)
                         </li>
                     }
-                </ul>
+                    else if (item.IsDocumentType("articlesOverview"))
+                    {
+                        var articles = item
+                            .Children()
+                            .OrderByDescending(x => x.CreateDate);
+                        <li class="nav-item dropdown @listItemClass">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @item.Name
+                            </a>
+                            @ShowDropDownItems(articles)
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item @listItemClass">
+                            <a class="nav-link" href="@item.Url">@item.Name</a>
+                        </li>
+                    }
+                }
+            </ul>
             }
         </div>
     </nav>
+
+@helper ShowDropDownItems(IEnumerable<IPublishedContent> items) { 
+     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+         @foreach (var item in items)
+         {
+             <a class="dropdown-item" href="@item.Url">@item.Name</a>
+         }
+     </div>
+}

@@ -1,9 +1,9 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ProjectItem>
 @{
 	Layout = "Master.cshtml";
 }
 
-<h1>@Model.Value("projectTitle")</h1>
-<p>@Model.Value("projectDescription")</p>
-<p>@Model.Value("projectStatus")</p>
+<h1>@Model.ProjectTitle</h1>
+<p>@Model.ProjectDescription</p>
+<p>@Model.ProjectStatus</p>
 
