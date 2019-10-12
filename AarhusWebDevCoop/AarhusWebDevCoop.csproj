@@ -510,6 +510,7 @@
     <Content Include="Views\ProjectItem.cshtml" />
     <Content Include="Views\ProjectsOverivew.cshtml" />
     <Content Include="Views\TextPage.cshtml" />
+    <Content Include="Views\Partials\Sitemap.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
