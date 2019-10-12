@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using Umbraco.Core;
+using Umbraco.Core.Models;
 using Umbraco.Web.Mvc;
 
 namespace AarhusWebDevCoop.Controllers
@@ -24,6 +26,20 @@ namespace AarhusWebDevCoop.Controllers
             {
                 return CurrentUmbracoPage();
             }
+
+            // Get the GuidUdi of the current page
+            GuidUdi currentPageUdi = new GuidUdi(CurrentPage.ContentType.ItemType.ToString(), CurrentPage.Key);
+
+            // Create the new document of 'Message'
+            IContent message = Services.ContentService.Create(model.Subject, currentPageUdi.Guid, "message");
+            message.SetValue("messageName", model.Name);
+            message.SetValue("email", model.Email);
+            message.SetValue("subject", model.Subject);
+            message.SetValue("messageContent", model.Message);
+            message.SetValue("umbracoNaviHide", true);
+
+            // Save
+            Services.ContentService.Save(message);
 
             // Would send an email, but I do not want to save credentials here :P
             //MailMessage message = new MailMessage();
