@@ -1,0 +1,55 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.Members>
+@using Umbraco.Web
+@using ContentModels = Umbraco.Web.PublishedModels;
+@{
+    Layout = "Master.cshtml";
+    var activeMembers = Services.MemberService.GetMembersByGroup("Active");
+    var guestMembers = Services.MemberService.GetMembersByGroup("Guest");
+}
+
+@*
+    https://our.umbraco.com/documentation/reference/management/services/memberservice/
+    https://our.umbraco.com/documentation/getting-started/backoffice/property-editors/built-in-property-editors/image-cropper
+*@
+
+@if (activeMembers.Any())
+{
+    <h2>Active members:</h2>
+    foreach (var member in activeMembers)
+    {
+        var publishedContentMember = Members.GetById(member.Id);
+        <p>
+            <img src="@Url.GetCropUrl(publishedContentMember, "photo", "avatar")" />
+            @member.Name <br>
+            @member.GetValue("address")<br>
+            @member.GetValue("zip") @member.GetValue("city")) <br>
+            Email: @member.Email<br>
+            Skills:
+            @{
+                // member.GetValue("skills").ToString(). E.g.: ["AngularJS","CSS","ASP.NET MVC","PHP"]
+                if (member.GetValue("skills") != null)
+                {
+                    string[] skills = member.GetValue("skills").ToString().Split(',');
+                    string skillString = string.Join(", ", skills.Select(item => item)).Replace("\"", "").TrimStart('[').TrimEnd(']');
+                    <span>@skillString</span>
+                }
+            }
+        </p>
+    }
+}
+
+@if (guestMembers.Any())
+{
+    <h2>Guest members:</h2>
+    foreach (var member in guestMembers)
+    {
+        <p>
+            @member.Name <br>
+            Email: @member.Email<br>
+            Mobile: @member.GetValue("mobile")<br>
+        </p>
+    }
+}
+
+
+

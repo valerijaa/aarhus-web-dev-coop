@@ -41,25 +41,6 @@ namespace AarhusWebDevCoop.Controllers
             // Save
             Services.ContentService.Save(message);
 
-            // Would send an email, but I do not want to save credentials here :P
-            //MailMessage message = new MailMessage();
-            //message.To.Add("username@eaaa.dk");
-            //message.Subject = model.Subject;
-            //message.From = new MailAddress(model.Email, model.Name);
-            //message.Body = model.Message;
-            //using (SmtpClient smtp = new SmtpClient())
-            //{
-            //    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            //    smtp.UseDefaultCredentials = false;
-            //    smtp.EnableSsl = true;
-            //    smtp.Host = "smtp.gmail.com";
-            //    smtp.Port = 587;
-            //    smtp.Credentials = new System.Net.NetworkCredential("username@gmail.com", "password");
-
-            //    // send mail
-            //    smtp.Send(message);
-            //}
-
             TempData["success"] = true;
             return RedirectToCurrentUmbracoPage();
         }

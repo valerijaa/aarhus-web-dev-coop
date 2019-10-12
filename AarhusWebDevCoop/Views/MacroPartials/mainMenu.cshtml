@@ -31,8 +31,7 @@
                             .Children()
                             .Where(x =>
                                 x.IsVisible()
-                                && x.HasValue("projectStatus")
-                                && x.GetProperty("projectStatus").Value<string>() == "Completed"
+                                && Umbraco.MemberHasAccess(x.Path)
                             )
                             .OrderByDescending(x => x.CreateDate);
 
@@ -41,18 +40,6 @@
                                 @item.Name
                             </a>
                             @ShowDropDownItems(projects)
-                        </li>
-                    }
-                    else if (item.IsDocumentType("articlesOverview"))
-                    {
-                        var articles = item
-                            .Children()
-                            .OrderByDescending(x => x.CreateDate);
-                        <li class="nav-item dropdown @listItemClass">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @item.Name
-                            </a>
-                            @ShowDropDownItems(articles)
                         </li>
                     }
                     else
