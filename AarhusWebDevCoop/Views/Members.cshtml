@@ -12,44 +12,66 @@
     https://our.umbraco.com/documentation/getting-started/backoffice/property-editors/built-in-property-editors/image-cropper
 *@
 
-@if (activeMembers.Any())
-{
-    <h2>Active members:</h2>
-    foreach (var member in activeMembers)
-    {
-        var publishedContentMember = Members.GetById(member.Id);
-        <p>
-            <img src="@Url.GetCropUrl(publishedContentMember, "photo", "avatar")" />
-            @member.Name <br>
-            @member.GetValue("address")<br>
-            @member.GetValue("zip") @member.GetValue("city")) <br>
-            Email: @member.Email<br>
-            Skills:
-            @{
-                // member.GetValue("skills").ToString(). E.g.: ["AngularJS","CSS","ASP.NET MVC","PHP"]
-                if (member.GetValue("skills") != null)
-                {
-                    string[] skills = member.GetValue("skills").ToString().Split(',');
-                    string skillString = string.Join(", ", skills.Select(item => item)).Replace("\"", "").TrimStart('[').TrimEnd(']');
-                    <span>@skillString</span>
-                }
-            }
-        </p>
-    }
-}
+<div class="container">
+    <div class="row">
 
-@if (guestMembers.Any())
-{
-    <h2>Guest members:</h2>
-    foreach (var member in guestMembers)
-    {
-        <p>
-            @member.Name <br>
-            Email: @member.Email<br>
-            Mobile: @member.GetValue("mobile")<br>
-        </p>
-    }
-}
+        @*Show all active members*@
+        @foreach (var member in activeMembers)
+        {
+            var publishedContentMember = Members.GetById(member.Id);
+            <div class="col-md-6 col-lg-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="@Url.GetCropUrl(publishedContentMember, "photo", "avatar")" alt="Card image cap" />
+                    <div class="card-body">
+                        <h5 class="card-title">@member.Name</h5>
+                        <div class="card-text">
+                            @member.GetValue("address")<br>
+                            @member.GetValue("zip") @member.GetValue("city") <br>
 
+                            <div class="strong">
+                                Email:
+                            </div>
+                            @member.Email
 
+                            <div class="strong">
+                                Skills:
+                            </div>
+                            @{
+                                if (member.GetValue("skills") != null)
+                                {
+                                    string[] skills = member.GetValue("skills").ToString().Split(',');
+                                    string skillString = string.Join(", ", skills.Select(item => item)).Replace("\"", "").TrimStart('[').TrimEnd(']');
+                                    <span>@skillString</span>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
 
+        @*Show all guest members*@
+        @foreach (var member in guestMembers)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@member.Name</h5>
+                        <div class="card-text">
+
+                            <div class="strong">
+                                Email:
+                            </div>
+                            @member.Email
+
+                            <div class="strong">
+                                Mobile:
+                            </div>
+                            @member.GetValue("mobile")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
