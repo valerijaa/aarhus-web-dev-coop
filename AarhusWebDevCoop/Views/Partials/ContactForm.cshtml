@@ -5,48 +5,80 @@
     Html.EnableUnobtrusiveJavaScript();
 }
 
-@if (TempData["success"] == null)
-{
-    using (Html.BeginUmbracoForm("HandleFormSubmit", "ContactFormSurface", new object { },
-    new { @class = "form-horizontal" }))
-    {
-        <div class="form-group">
-            @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name" })
-                @Html.ValidationMessageFor(m => m.Name)
+<section class="page-section" id="contact">
+    <div class="container">
+
+        <!-- Contact Section Heading -->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Contact us</h2>
+
+        <!-- Icon Divider -->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon">
+                <i class="fas fa-star"></i>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Email, new { @class = "col-sm-2 control-label" })
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email address" })
-                @Html.ValidationMessageFor(m => m.Email)
-            </div>
+            <div class="divider-custom-line"></div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.Subject, new { @class = "col-sm-2 control-label" })
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", placeholder = "Subject" })
-                @Html.ValidationMessageFor(m => m.Subject)
+        <!-- Contact Section Form -->
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                @if (TempData["success"] != null)
+                {
+                    <div class="alert alert-success" role="alert">
+                        Thank you for contacting us. We’ll be in touch soon!
+                    </div>
+                }
+                else
+                {
+                    <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+                    using (Html.BeginUmbracoForm("HandleFormSubmit", "ContactFormSurface", new object { },
+                    new { }))
+                    {
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                @Html.LabelFor(m => m.Name)
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name" })
+                                <p class="help-block text-danger">
+                                    @Html.ValidationMessageFor(m => m.Name)
+                                </p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                @Html.LabelFor(m => m.Email)
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                                <p class="help-block text-danger">
+                                    @Html.ValidationMessageFor(m => m.Email)
+                                </p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                @Html.LabelFor(m => m.Subject)
+                                @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", placeholder = "Subject" })
+                                <p class="help-block text-danger">
+                                    @Html.ValidationMessageFor(m => m.Subject)
+                                </p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                @Html.LabelFor(m => m.Message)
+                                @Html.TextAreaFor(m => m.Message, new { @class = "form-control", placeholder = "Your message" })
+                                <p class="help-block text-danger">
+                                    @Html.ValidationMessageFor(m => m.Message)
+                                </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div id="success"></div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send</button>
+                        </div>
+                    }
+                }
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Message, new { @class = "col-sm-2 control-label" })
-            <div class="col-sm-6">
-                @Html.TextAreaFor(m => m.Message, new { @class = "form-control", placeholder = "Your message" })
-                @Html.ValidationMessageFor(m => m.Message)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-6">
-                <button id="contact-submit" type="submit" class="btn btn-primary input-medium pullleft">Send</button>
-            </div>
-        </div>
-    }
-}
-else
-{
-    <p>Thank you for contacting us. We’ll be in touch soon!</p>
-}
+    </div>
+</section>

@@ -20,41 +20,69 @@
 @* NOTE: This RenderJsHere code should be put on your main template page where the rest of your script tags are placed *@
 @Html.RenderJsHere()
 
-@if (!Members.GetCurrentLoginStatus().IsLoggedIn)
-{
-    using (Html.BeginUmbracoForm<UmbLoginController>("HandleLogin"))
+<div class="container">
+    @if (!Members.GetCurrentLoginStatus().IsLoggedIn)
     {
-        @Html.HiddenFor(m => loginModel.RedirectUrl)
-        <fieldset>
-            <legend>Login</legend>
+        <!-- Contact Section Heading -->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Log in 🕵️</h2>
 
-            @Html.ValidationSummary("loginModel", true)
+        <!-- Icon Divider -->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="divider-custom-line"></div>
+        </div>
 
-            @Html.LabelFor(m => loginModel.Username)
-            @Html.TextBoxFor(m => loginModel.Username)
-            @Html.ValidationMessageFor(m => loginModel.Username)
-            <br />
+        <!-- Contact Section Form -->
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                @using (Html.BeginUmbracoForm<UmbLoginController>
+                    ("HandleLogin"))
+                {
+                    @Html.HiddenFor(m => loginModel.RedirectUrl)
+                    <p class="help-block text-danger">
+                        @Html.ValidationSummary("loginModel", true)
+                    </p>
 
-            @Html.LabelFor(m => loginModel.Password)
-            @Html.PasswordFor(m => loginModel.Password)
-            @Html.ValidationMessageFor(m => loginModel.Password)
-            <br />
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                            @Html.LabelFor(m => loginModel.Username)
+                            @Html.TextBoxFor(m => loginModel.Username, new { autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => loginModel.Username)
+                        </div>
+                    </div>
 
-            <button>Login</button>
-        </fieldset>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                            @Html.LabelFor(m => loginModel.Password)
+                            @Html.PasswordFor(m => loginModel.Password, new { autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => loginModel.Password)
+                        </div>
+                    </div>
+
+                    <br/>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-md">Login</button>
+                    </div>
+                }
+            </div>
+        </div>
     }
-}
-else
-{
-    <p>
-        You are currently logged in as @Members.GetCurrentLoginStatus().Name
-    </p>
-
-    var logoutModel = new PostRedirectModel();
-    logoutModel.RedirectUrl = "/";
-    using (Html.BeginUmbracoForm<UmbLoginStatusController>("HandleLogout"))
+    else
     {
-        <button>Logout</button>
-        @Html.HiddenFor(m => logoutModel.RedirectUrl)
+        <p>
+            You are currently logged in as @Members.GetCurrentLoginStatus().Name
+        </p>
+
+        var logoutModel = new PostRedirectModel();
+        logoutModel.RedirectUrl = "/";
+        using (Html.BeginUmbracoForm<UmbLoginStatusController>
+            ("HandleLogout"))
+        {
+            <button type="submit" class="btn btn-danger">Log out</button>
+            @Html.HiddenFor(m => logoutModel.RedirectUrl)
+        }
     }
-}
+</div>

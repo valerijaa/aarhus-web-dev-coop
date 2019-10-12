@@ -12,7 +12,7 @@ namespace AarhusWebDevCoop.ViewModels
         public string Name { get; set; }
 
         [Display(Name = "Email")]
-        [Required(ErrorMessage = "Please enter your name")]
+        [Required(ErrorMessage = "Please enter your email")]
         [EmailAddress(ErrorMessage = "Please enter correct email address")]
         public string Email { get; set; }
 

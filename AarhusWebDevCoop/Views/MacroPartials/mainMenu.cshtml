@@ -8,23 +8,29 @@
     It also highlights the current active page/section in the navigation with the CSS class "current".
 *@
 
-@{ 
+@{
     var root = Model.Content.Root();
     var selection = root.Children.Where(x => x.IsVisible()).ToArray();
 }
 
- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="@root.Url">@root.Name</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg bg-secondary text-uppercase" id="mainNav">
+    <div class="container-fluid">
+        <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-           @if (selection.Length > 0)
-            {
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+
+                @*Homepage*@
+                <li class="nav-item mx-0 mx-lg-1">
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded" href="@root.Url">@root.Name</a>
+                </li>
+
                 @foreach (var item in selection)
                 {
-                    var listItemClass = item.IsAncestorOrSelf(Model.Content) ? "active" : null;
+                    // projects overview is rendered as a dropdown
                     if (item.IsDocumentType("projectsOverview"))
                     {
                         var projects = item
@@ -35,8 +41,9 @@
                             )
                             .OrderByDescending(x => x.CreateDate);
 
-                        <li class="nav-item dropdown @listItemClass">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <li class="nav-item mx-0 mx-lg-1 dropdown-nav-item">
+                            <a class="nav-link py-3 px-0 px-lg-3 rounded dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @item.Name
                             </a>
                             @ShowDropDownItems(projects)
@@ -44,21 +51,64 @@
                     }
                     else
                     {
-                        <li class="nav-item @listItemClass">
-                            <a class="nav-link" href="@item.Url">@item.Name</a>
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-3 px-0 px-lg-3 rounded" href="@item.Url">@item.Name</a>
                         </li>
-                    }
+                     }
                 }
             </ul>
+        </div>
+    </div>
+</nav>
+
+@*<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="@root.Url">@root.Name</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            @if (selection.Length > 0)
+            {
+                <ul class="navbar-nav">
+                    @foreach (var item in selection)
+                    {
+                        var listItemClass = item.IsAncestorOrSelf(Model.Content) ? "active" : null;
+                        if (item.IsDocumentType("projectsOverview"))
+                        {
+                            var projects = item
+                                .Children()
+                                .Where(x =>
+                                    x.IsVisible()
+                                    && Umbraco.MemberHasAccess(x.Path)
+                                )
+                                .OrderByDescending(x => x.CreateDate);
+
+                            <li class="nav-item dropdown @listItemClass">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @item.Name
+                                </a>
+                                @ShowDropDownItems(projects)
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item @listItemClass">
+                                <a class="nav-link" href="@item.Url">@item.Name</a>
+                            </li>
+                        }
+                    }
+                </ul>
             }
         </div>
     </nav>
+*@
 
-@helper ShowDropDownItems(IEnumerable<IPublishedContent> items) { 
-     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-         @foreach (var item in items)
-         {
-             <a class="dropdown-item" href="@item.Url">@item.Name</a>
-         }
-     </div>
+@helper ShowDropDownItems(IEnumerable<IPublishedContent> items)
+{
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        @foreach (var item in items)
+        {
+            <a class="dropdown-item" href="@item.Url">@item.Name</a>
+        }
+    </div>
 }

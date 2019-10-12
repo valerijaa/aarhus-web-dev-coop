@@ -3,20 +3,50 @@
 	Layout = "Master.cshtml";
 }
 
-<h1>@Model.ArticleTitle</h1>
-<p>@Model.ArticlesBodyText</p>
+<section class="page-section bg-primary text-white mb-0" id="about">
+    <div class="container">
+        <h2 class="page-section-heading text-center text-uppercase text-white">@Model.ArticleTitle</h2>
+        <div class="divider-custom divider-light">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <div class="row">
+            <div class="col align-self-center">
+                @Html.Raw(Model.ArticlesBodyText)
+            </div>
+        </div>
+    </div>
+</section>
 
 @{
 	var selection = Umbraco.Content(Guid.Parse("e170b774-2833-4a7f-aa68-22a486123e36"))
     .ChildrenOfType("articleItem")
     .Where(x => x.IsVisible());
 }
-<ul>
-	@foreach (var item in selection)
-	{
-		<li>
-			<a href="@item.Url">@item.Name</a>
-		</li>
-	}
-</ul>
 
+<section class="page-section portfolio" id="portfolio">
+    <div class="container">
+        <!-- Portfolio Grid Items -->
+        <div class="row">
+            @foreach (var item in selection)
+            {
+                <!-- Portfolio Item 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <p class="card-text">
+                                @Html.StripHtml(item.Value<string>("articleContent")).ToString().Truncate(40)
+                            </p>
+                            <a href="@item.Url" class="btn btn-primary">Read more</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
