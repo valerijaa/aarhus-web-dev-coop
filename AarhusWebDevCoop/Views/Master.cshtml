@@ -1,0 +1,23 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+	Layout = null;
+}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>@Model.Name</title>
+    <meta name="description" content="@Model.Value("metaDescription")">
+    <meta name="keywords" content="@Model.Value("metaKeywords")">
+
+    <link rel="stylesheet" href="~/Content/bootstrap.css">
+
+</head>
+
+<body>
+   @Umbraco.RenderMacro("mainMenu")
+    @RenderBody()
+    @*<script src="js/scripts.js"></script>*@
+</body>
+</html>

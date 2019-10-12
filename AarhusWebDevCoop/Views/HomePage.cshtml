@@ -1,0 +1,9 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+	Layout = "Master.cshtml";
+    var image = Model.Value<IPublishedContent>("logo");
+}
+
+<h1>@Model.Value("siteTitle")</h1>
+
+<img src="@image.Url" alt="logo" height="42" width="42">
