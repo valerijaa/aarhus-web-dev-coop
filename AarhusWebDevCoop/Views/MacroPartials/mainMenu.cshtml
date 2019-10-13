@@ -46,7 +46,12 @@
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @item.Name
                             </a>
-                            @ShowDropDownItems(projects)
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @foreach (var project in projects)
+                                {
+                                    <a class="dropdown-item" href="@project.Url">@project.Name</a>
+                                }
+                            </div>
                         </li>
                     }
                     else
@@ -60,55 +65,3 @@
         </div>
     </div>
 </nav>
-
-@*<nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="@root.Url">@root.Name</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            @if (selection.Length > 0)
-            {
-                <ul class="navbar-nav">
-                    @foreach (var item in selection)
-                    {
-                        var listItemClass = item.IsAncestorOrSelf(Model.Content) ? "active" : null;
-                        if (item.IsDocumentType("projectsOverview"))
-                        {
-                            var projects = item
-                                .Children()
-                                .Where(x =>
-                                    x.IsVisible()
-                                    && Umbraco.MemberHasAccess(x.Path)
-                                )
-                                .OrderByDescending(x => x.CreateDate);
-
-                            <li class="nav-item dropdown @listItemClass">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    @item.Name
-                                </a>
-                                @ShowDropDownItems(projects)
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item @listItemClass">
-                                <a class="nav-link" href="@item.Url">@item.Name</a>
-                            </li>
-                        }
-                    }
-                </ul>
-            }
-        </div>
-    </nav>
-*@
-
-@helper ShowDropDownItems(IEnumerable<IPublishedContent> items)
-{
-    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        @foreach (var item in items)
-        {
-            <a class="dropdown-item" href="@item.Url">@item.Name</a>
-        }
-    </div>
-}

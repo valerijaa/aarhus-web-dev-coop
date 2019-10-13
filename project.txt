@@ -1,0 +1,15 @@
+Some important credentials to Aarhus Web Developers Network project: 
+
+1. Link to github: https://github.com/valerijaa/aarhus-web-dev-coop.git
+
+2. Credentials to Umbraco BackOffice: 
+login: lerakrastinja@gmail.com
+password: qwertyqwerty
+
+3. Login credentials for Active member:
+username: angelavaldes
+password: qwertyqwerty
+
+4. Login credentials for Guest member: 
+username: tasha
+password: qwertyqwerty
